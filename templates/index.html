@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Dividend Management</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Stock List</h1>
+    <table>
+      <tr>
+        <th>会社名</th>
+        <th>株数</th>
+        <th>配当金</th>
+        <th>編集</th>
+      </tr>
+
+      {% for stock in stocks %}
+      <tr>
+        <td>{{ stock.company_name }}</td>
+        <td>{{ stock.shares }}株</td>
+        <td>{{ stock.dividend | round(0)}}円</td>
+        <td><a href="{{url_for('edit', id=stock.id)}}">Edit Stock Info</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <p> 年間配当：{{annual_dividend | round(0)}} 円</p>
+    <a href="/add_stock">Add Stock</a>
+
+    <canvas id="myBarChart" width="100" height="100" style="padding: 100px" ></canvas>
+    <script>
+        const companyNames = {{ company_names }};
+        const dividends = {{ dividends }};
+
+        const ctx = document.getElementById("myBarChart").getContext("2d");
+        const myBarChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: companyNames,
+                datasets: [
+                    {
+                        label: "Dividends",
+                        data: dividends,
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

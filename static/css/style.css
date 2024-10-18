@@ -1,0 +1,11 @@
+table{
+    width: 100%;
+    border-collapse: collapse;/* 隣接するセルのボーダーが一つになる */
+}
+
+th,td{
+    border: 1px solid black;
+    padding: 2px;
+    text-align: left;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}

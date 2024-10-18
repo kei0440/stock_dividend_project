@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Stock Information</title>
+</head>
+<body>
+  <form action="" method="POST">
+    <p>Stock Number:{{stock.stock_number}}</p>
+    <p>Company Name:{{stock.company_name}}</p>
+    <p>Purchased Price:{{stock.purchased_price}}</p>
+    <p>Shares:{{stock.shares}}</p>
+    <input hidden="hidden" name="id" value="{{stock.id}}">
+    <p>New Purchased Price = <input type="text" name="purchased_price" placeholder="{{stock.purchased_price}}"></p>
+    <p>New Shares = <input type="text" name="shares" placeholder="{{stock.shares}}"></p>
+    <button type="submit">Change Stock Info</button>
+  </form>
+
+</body>
+</html>
