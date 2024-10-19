@@ -18,6 +18,7 @@ from sqlalchemy.sql.functions import current_time
 # 増配率を加味した今後の予想配当金を計算
 # 今後の予想配当を棒グラフで表示
 #　gitのテスト
+# これでgit使えてる？
 
 URL = "https://kabutan.jp/stock/?code="
 
