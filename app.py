@@ -31,7 +31,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///stock-list.db"
 db = SQLAlchemy(app)
 
 class Stock(db.Model):
-    __tablename__ = "stocks"
+    __tablename__ = "stocks" #テーブル名
     id = db.Column(db.Integer, primary_key=True)
     stock_number = db.Column(db.Integer,unique=True, nullable=False)
     company_name = db.Column(db.String(50), unique=True, nullable=False)
@@ -47,8 +47,9 @@ with app.app_context():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    # db.session.expire_all()
-    stocks = db.session.execute(db.select(Stock).order_by(Stock.stock_number)).scalars()
+    stocks = db.session.query(Stock).all()
+    # stocks = Stock.query.all()
+    # print(stocks)
     annual_dividend = db.session.query(func.sum(Stock.dividend)).scalar()
     if annual_dividend == None:
         annual_dividend = 0
@@ -57,8 +58,11 @@ def index():
     for stock in stocks:
         company_names.append(stock.company_name)
         dividends.append(stock.dividend)
-    print(company_names)
-    print(dividends)
+    #     print(stock.company_name)
+    #     print(stock.shares)
+    #     print(stock.dividend)
+    # print(company_names)
+    # print(dividends)
     return render_template("index.html", stocks=stocks, annual_dividend=annual_dividend, company_names=company_names, dividends=dividends)
 
 @app.route("/add_stock", methods=["GET", "POST"])

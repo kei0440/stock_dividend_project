@@ -8,31 +8,33 @@
 </head>
 <body>
     <h1>Stock List</h1>
-    <table>
-      <tr>
-        <th>会社名</th>
-        <th>株数</th>
-        <th>配当金</th>
-        <th>編集</th>
-      </tr>
+    {% if stocks %}
+        <table>
+          <tr>
+            <th>会社名</th>
+            <th>株数</th>
+            <th>配当金</th>
+            <th>編集</th>
+          </tr>
 
-      {% for stock in stocks %}
-      <tr>
-        <td>{{ stock.company_name }}</td>
-        <td>{{ stock.shares }}株</td>
-        <td>{{ stock.dividend | round(0)}}円</td>
-        <td><a href="{{url_for('edit', id=stock.id)}}">Edit Stock Info</a></td>
-      </tr>
-      {% endfor %}
-    </table>
-
+          {% for stock in stocks %}
+          <tr>
+            <td>{{ stock.company_name }}</td>
+            <td>{{ stock.shares }}株</td>
+            <td>{{ stock.dividend | round(0)}}円</td>
+            <td><a href="{{url_for('edit', id=stock.id)}}">Edit Stock Info</a></td>
+          </tr>
+          {% endfor %}
+        </table>
+    {% else %}
+        <p>No stock data available.</p>
+    {% endif %}
     <p> 年間配当：{{annual_dividend | round(0)}} 円</p>
     <a href="/add_stock">Add Stock</a>
-
     <canvas id="myBarChart" width="100" height="100" style="padding: 100px" ></canvas>
     <script>
-        const companyNames = {{ company_names }};
-        const dividends = {{ dividends }};
+        const companyNames = {{ company_names | tojson}};
+        const dividends = {{ dividends | tojson}};
 
         const ctx = document.getElementById("myBarChart").getContext("2d");
         const myBarChart = new Chart(ctx, {
